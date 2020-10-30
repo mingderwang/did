@@ -5,6 +5,7 @@
       <sp-bank-balances />
       <sp-token-send />
       <!-- this line is used by starport scaffolding # 4 -->
+		<sp-type-form type="identifier" :fields="['diddoc', ]" module="did" />
     </div>
   </div>
 </template>
