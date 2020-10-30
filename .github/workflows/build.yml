@@ -1,0 +1,80 @@
+# This is a basic workflow that is manually triggered
+
+name: did
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on: [push, pull_request]
+
+# This workflow makes x86_64 binaries for mac, windows, and linux.
+
+
+jobs:
+  mac-windows:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        targetos: [windows, darwin]
+    name: did for ${{ matrix.targetos }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.15
+        env:
+          GOOS: ${{ matrix.targetos }}
+
+      - name: Compile
+        run: |
+          cd cmd/didd
+          go build .
+          cd ..
+          cd didcli
+          go build .
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: didcli ${{ matrix.targetos }}
+          path: cmd/didcli/didcli
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: didd ${{ matrix.targetos }}
+          path: cmd/didd/didd
+
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [arm64, riscv64, amd64]
+
+    name: did for ${{ matrix.arch }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.15
+        env:
+          GOARCH: ${{ matrix.arch }}
+
+      - name: Compile
+        run: |
+          cd cmd/didd
+          go build .
+          cd ..
+          cd didcli
+          go build .
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: didcli ${{ matrix.arch }}
+          path: cmd/didcli/didcli
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: didd ${{ matrix.arch }}
+          path: cmd/didd/didd
