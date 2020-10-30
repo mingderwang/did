@@ -29,3 +29,6 @@ A list of user accounts created during genesis of your application.
 - [Cosmos SDK documentation](https://docs.cosmos.network)
 - [Cosmos Tutorials](https://tutorials.cosmos.network)
 - [Channel on Discord](https://discord.gg/W8trcGV)
+
+### pitch and demo on youtube
+https://youtu.be/_UyJnwQpJ6w
